@@ -1,6 +1,6 @@
 package com.edulify.modules.sitemap;
 
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.inject.Injector;
 
 import javax.inject.Inject;
@@ -12,11 +12,11 @@ import java.util.List;
 public class SitemapProviders {
 
     private Injector injector;
-    private Configuration configuration;
+    private Config configuration;
     private List<UrlProvider> providers = new ArrayList<>();
 
     @Inject
-    public SitemapProviders(Injector injector, Configuration configuration) {
+    public SitemapProviders(Injector injector, Config configuration) {
         this.injector = injector;
         this.configuration = configuration;
         this.init();
@@ -26,7 +26,7 @@ public class SitemapProviders {
         return providers;
     }
 
-    private List<UrlProvider> init() {
+    private void init() {
         providers.add(injector.instanceOf(AnnotationUrlProvider.class));
 
         String allProvidersClasses = configuration.getString("sitemap.providers");
@@ -41,8 +41,6 @@ public class SitemapProviders {
                 }
             }
         }
-
-        return providers;
     }
 
     private Class<?> getProviderClass(String name, ClassLoader classLoader) {

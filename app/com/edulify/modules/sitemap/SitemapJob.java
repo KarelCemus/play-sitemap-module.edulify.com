@@ -1,12 +1,8 @@
 package com.edulify.modules.sitemap;
 
 import akka.actor.ActorSystem;
-import play.Application;
-import play.Play;
-import play.libs.Akka;
-import scala.concurrent.duration.FiniteDuration;
-
 import akka.dispatch.MessageDispatcher;
+import scala.concurrent.duration.FiniteDuration;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -37,17 +33,5 @@ public class SitemapJob {
                         task,
                         executionContext
                 );
-    }
-
-    /**
-     * @deprecated Use com.edulify.modules.sitemap.SitemapModule instead.
-     */
-    @Deprecated
-    public static void startSitemapGenerator() {
-        Application application = Play.application();
-        ActorSystem actorSystem = Akka.system();
-        SitemapConfig sitemapConfig = application.injector().instanceOf(SitemapConfig.class);
-        SitemapTask task = application.injector().instanceOf(SitemapTask.class);
-        new SitemapJob(actorSystem, sitemapConfig, task).init();
     }
 }

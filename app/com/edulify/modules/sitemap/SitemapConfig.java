@@ -1,32 +1,23 @@
 package com.edulify.modules.sitemap;
 
-import play.Configuration;
+import com.typesafe.config.Config;
 import play.Environment;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class SitemapConfig {
 
-    private Configuration configuration;
+    private Config configuration;
     private Environment environment;
 
 
     @Inject
-    public SitemapConfig(Configuration configuration, Environment environment) {
+    public SitemapConfig(Config configuration, Environment environment) {
         this.configuration = configuration;
         this.environment = environment;
-    }
-
-    public Long getInitialDelayInMillis() {
-        return configuration.getMilliseconds("sitemap.initialDelay", TimeUnit.MINUTES.toMillis(1));
-    }
-
-    public Long getExecutionIntervalInMillis() {
-        return configuration.getMilliseconds("sitemap.executionInterval", TimeUnit.HOURS.toMillis(1));
     }
 
     public String getDispatcherName() {
@@ -34,11 +25,11 @@ public class SitemapConfig {
     }
 
     public String getInitialDelay() {
-        return configuration.getString("sitemap.initialDelay", "1 minute");
+        return configuration.getString("sitemap.initialDelay");
     }
 
     public String getExecutionInterval() {
-        return configuration.getString("sitemap.executionInterval", "1 hour");
+        return configuration.getString("sitemap.executionInterval");
     }
 
     public String getBaseUrl() {

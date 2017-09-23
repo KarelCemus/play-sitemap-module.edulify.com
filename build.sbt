@@ -1,8 +1,8 @@
 name := "sitemap-module"
 
-version := "2.1.2"
+version := "2.2.0-SNAPSHOT"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.3"
 
 scalacOptions := Seq("-feature", "-deprecation")
 
@@ -10,7 +10,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 libraryDependencies ++= Seq(
   javaCore,
-  "com.github.dfabulich" % "sitemapgen4j" % "1.0.5"
+  guice,
+  "com.github.dfabulich" % "sitemapgen4j" % "1.0.6"
 )
 
 organization := "com.edulify"
@@ -28,9 +29,9 @@ pomIncludeRepository := { _ => false }
 publishTo := {
   val nexus = "https://oss.sonatype.org/"
   if (version.value.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
+    Some(Resolver.url( "karelcemus-snapshot-repository", new URL( "http://maven.karelcemus.cz/artifactory/libs-snapshot/" ) )( Resolver.defaultIvyPatterns ))
   else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some(Resolver.url( "karelcemus-release-repository", new URL( "http://maven.karelcemus.cz/artifactory/libs-release/" ) )( Resolver.defaultIvyPatterns ))
 }
 
 startYear := Some(2013)
@@ -41,7 +42,7 @@ licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.ap
 
 homepage := Some(url("https://edulify.github.io/play-sitemap-module.edulify.com"))
 
-pomExtra := (
+pomExtra := {
   <scm>
     <url>https://github.com/edulify/play-sitemap-module.edulify.com</url>
     <connection>scm:git:git@github.com:edulify/play-sitemap-module.edulify.com.git</connection>
@@ -61,4 +62,4 @@ pomExtra := (
         <url>https://github.com/ranierivalenca</url>
       </developer>
     </developers>
-  )
+}

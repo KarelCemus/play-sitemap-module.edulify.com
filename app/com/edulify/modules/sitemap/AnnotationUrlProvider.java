@@ -10,9 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.Set;
 
+import com.typesafe.config.Config;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
-import play.Configuration;
 import play.mvc.Call;
 
 import scala.Function0;
@@ -21,10 +21,10 @@ import javax.inject.Inject;
 
 public class AnnotationUrlProvider implements UrlProvider {
 
-  private Configuration configuration;
+  private Config configuration;
 
   @Inject
-  public AnnotationUrlProvider(Configuration configuration) {
+  public AnnotationUrlProvider(Config configuration) {
     this.configuration = configuration;
   }
 
