@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "com.github.dfabulich" % "sitemapgen4j" % "1.0.6"
 )
 
-organization := "com.edulify"
+organization := "com.github.karelcemus"
 
 organizationName := "Edulify.com"
 
