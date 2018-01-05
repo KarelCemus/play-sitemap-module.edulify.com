@@ -2,9 +2,11 @@ name := "sitemap-module"
 
 version := "2.2.0-SNAPSHOT"
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.4"
 
 scalacOptions := Seq("-feature", "-deprecation")
+
+crossScalaVersions := Seq( "2.11.11", scalaVersion.value )
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -20,7 +22,7 @@ organizationName := "Edulify.com"
 
 organizationHomepage := Some(new URL("https://edulify.com"))
 
-publishMavenStyle := true
+publishMavenStyle := false
 
 publishArtifact in Test := false
 
