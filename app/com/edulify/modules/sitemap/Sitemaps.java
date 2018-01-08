@@ -18,23 +18,23 @@ public class Sitemaps extends Controller {
     this.configuration = configuration;
   }
 
-  public Result sitemap(String sitemapSuffix) {
+  public Result sitemap(String domain,String sitemapSuffix) {
     String sitemap = String.format("sitemap%s.xml", sitemapSuffix);
-    File baseDir = configuration.getBaseDir();
+    File baseDir = configuration.getBaseDir(domain);
     File sitemapFile = new File(baseDir, sitemap);
     play.Logger.debug("Delivering sitemap file " + sitemapFile.getAbsolutePath());
-    if(canDelivery(sitemapFile)) {
+    if(canDelivery(domain,sitemapFile)) {
       return ok(sitemapFile, true);
     }
     if ("_index".equals(sitemapSuffix)) {
-      return sitemap("");
+      return sitemap( domain,"");
     }
     play.Logger.error(format("%s sitemap file was not found at directory %s", sitemapFile.getAbsolutePath(), baseDir.getAbsolutePath()));
     return notFound();
   }
 
-  private boolean canDelivery(File file) {
-    File baseDir = configuration.getBaseDir();
+  private boolean canDelivery(String domain,File file) {
+    File baseDir = configuration.getBaseDir(domain);
     return  file.exists() &&
             file.isFile() &&
             file.getParentFile().equals(baseDir);

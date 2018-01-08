@@ -32,12 +32,14 @@ public class SitemapConfig {
         return configuration.getString("sitemap.executionInterval");
     }
 
-    public String getBaseUrl() {
-        return configuration.getString("sitemap.baseUrl");
+    public String getBaseUrl(String domain) {
+        return configuration.getString("sitemap.baseUrl." + domain);
     }
 
-    public File getBaseDir() {
+    public File getBaseDir(String domain) {
         String baseDir = configuration.getString("sitemap.baseDir");
-        return baseDir == null ? environment.getFile("public") : new File(baseDir);
+        File dir = baseDir == null ? environment.getFile("public/" + domain) : new File(baseDir + "/" + domain);
+        dir.mkdirs();
+        return dir;
     }
 }

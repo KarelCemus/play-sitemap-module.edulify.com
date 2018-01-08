@@ -29,8 +29,8 @@ public class AnnotationUrlProvider implements UrlProvider {
   }
 
   @Override
-  public void addUrlsTo(WebSitemapGenerator generator) {
-    String baseUrl = configuration.getString("sitemap.baseUrl");
+  public void addUrlsTo(String domain, WebSitemapGenerator generator) {
+    String baseUrl = configuration.getString("sitemap.baseUrl." + domain);
 
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     Reflections reflections = new Reflections("controllers", new MethodAnnotationsScanner());

@@ -31,21 +31,24 @@ public class SitemapTask implements Runnable {
         // Akka triggers tasks also when it is shutting down
         if (shuttingDown) return;
 
-        String baseUrl = sitemapConfig.getBaseUrl();
-        try {
-            WebSitemapGenerator generator = new WebSitemapGenerator(baseUrl, sitemapConfig.getBaseDir());
-            List<UrlProvider> providers = sitemapProviders.getProviders();
-            for (UrlProvider urlProvider : providers) {
-                urlProvider.addUrlsTo(generator);
-            }
-            generator.write();
+        for(String domain: sitemapProviders.getDomains()) {
+            String baseUrl = sitemapConfig.getBaseUrl(domain);
             try {
-                generator.writeSitemapsWithIndex();
-            } catch (RuntimeException ex) {
-                play.Logger.warn("Could not create sitemap index", ex);
+                WebSitemapGenerator generator = new WebSitemapGenerator(baseUrl, sitemapConfig.getBaseDir(domain));
+
+                List<UrlProvider> providers = sitemapProviders.getProviders(domain);
+                for (UrlProvider urlProvider : providers) {
+                    urlProvider.addUrlsTo(domain, generator);
+                }
+                generator.write();
+                try {
+                    generator.writeSitemapsWithIndex();
+                } catch (RuntimeException ex) {
+                    play.Logger.warn("Could not create sitemap index", ex);
+                }
+            } catch(MalformedURLException ex) {
+                play.Logger.error("Oops! Can't create a sitemap generator for the given baseUrl " + baseUrl, ex);
             }
-        } catch(MalformedURLException ex) {
-            play.Logger.error("Oops! Can't create a sitemap generator for the given baseUrl " + baseUrl, ex);
         }
     }
 }
