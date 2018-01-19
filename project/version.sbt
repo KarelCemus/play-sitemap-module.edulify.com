@@ -1,1 +1,1 @@
-version in ThisBuild := "2.2.0-multidomain"
+version in ThisBuild := "2.2.1-multidomain-SNAPSHOT"
