@@ -1,6 +1,7 @@
 package com.edulify.modules.sitemap;
 
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import play.Logger;
 import play.inject.ApplicationLifecycle;
 
 import javax.inject.Inject;
@@ -15,6 +16,8 @@ public class SitemapTask implements Runnable {
 
     // Indicates the application is shutting down, see #22 for more details
     private boolean shuttingDown = false;
+
+    private Logger.ALogger log = play.Logger.of(SitemapTask.class);
 
     @Inject
     public SitemapTask(SitemapConfig sitemapConfig, SitemapProviders providers, ApplicationLifecycle lifecycle) {
@@ -42,10 +45,10 @@ public class SitemapTask implements Runnable {
             try {
                 generator.writeSitemapsWithIndex();
             } catch (RuntimeException ex) {
-                play.Logger.warn("Could not create sitemap index", ex);
+                log.warn("Could not create sitemap index", ex);
             }
         } catch(MalformedURLException ex) {
-            play.Logger.error("Oops! Can't create a sitemap generator for the given baseUrl " + baseUrl, ex);
+            log.error("Oops! Can't create a sitemap generator for the given baseUrl " + baseUrl, ex);
         }
     }
 }

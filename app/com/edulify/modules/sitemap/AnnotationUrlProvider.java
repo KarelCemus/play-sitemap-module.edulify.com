@@ -13,6 +13,7 @@ import java.util.Set;
 import com.typesafe.config.Config;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
+import play.Logger;
 import play.mvc.Call;
 
 import scala.Function0;
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 public class AnnotationUrlProvider implements UrlProvider {
 
   private Config configuration;
+
+  private Logger.ALogger log = play.Logger.of(AnnotationUrlProvider.class);
 
   @Inject
   public AnnotationUrlProvider(Config configuration) {
@@ -53,7 +56,7 @@ public class AnnotationUrlProvider implements UrlProvider {
                               .priority(annotation.priority())
                               .build();
     } catch(MalformedURLException ex) {
-      play.Logger.error("MalformedURLException: ", ex);
+      log.error("MalformedURLException: ", ex);
     }
     return null;
   }
@@ -70,15 +73,15 @@ public class AnnotationUrlProvider implements UrlProvider {
       Call call = (Call) reverseMethod.invoke(clazz.getConstructor(Function0.class).newInstance(byNamePrefixMethod.invoke(routesPrefixClazz)));
       itemUrl = call.url();
     } catch (ClassNotFoundException ex) {
-      play.Logger.error("Package controllers does not have such class", ex);
+      log.error("Package controllers does not have such class", ex);
     } catch (NoSuchMethodException ex) {
-      play.Logger.error("Method not exists", ex);
+      log.error("Method not exists", ex);
     } catch (IllegalAccessException ex) {
-      play.Logger.error("Method is not visible", ex);
+      log.error("Method is not visible", ex);
     } catch (InstantiationException ex) {
-      play.Logger.error("Reverse class could not be instantiated", ex);
+      log.error("Reverse class could not be instantiated", ex);
     } catch (InvocationTargetException ex) {
-      play.Logger.error("No instance of reverse class to call method", ex);
+      log.error("No instance of reverse class to call method", ex);
     }
     return itemUrl;
   }
