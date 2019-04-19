@@ -1,14 +1,19 @@
 // Comment to get more information during initialization
 logLevel := Level.Warn
 
-resolvers += "iBiblio Maven" at "http://mirrors.ibiblio.org/maven2/"
+resolvers += Resolver.typesafeRepo("releases")
 
-// Use the Play sbt plugin for Play projects
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % System.getProperty("play.version", "2.6.11"))
+resolvers += Resolver.sonatypeRepo("releases")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.0")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.7.1")
+
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.2")
+
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
+
+// PGP signature
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.1")
 
 // looks up new versions of SBT dependencies, check for dependencies updates
-addSbtPlugin( "com.timushev.sbt" % "sbt-updates" % "0.3.4" )
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.4.0")
 
-addSbtPlugin( "com.github.gseitz" % "sbt-release" % "1.0.7" )
